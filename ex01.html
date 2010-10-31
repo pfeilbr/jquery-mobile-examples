@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>untitled</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Brian Pfeil">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
+	<!-- jQM gets loaded in dynamically (see below)-->
+	<!-- <script src="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script> -->
+	<script src="http://nje.github.com/jquery-tmpl/jquery.tmpl.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	jQuery(function($) {
+		
+		// dynamically generate a set of pages
+		var pageCount = 20;
+		for (var i = 1; i < pageCount; i++) {
+			var page = {
+				id: 'page' + i,
+				title: 'Page ' + i,
+				content: 'Page ' + i +' content here ...',
+				footer: 'Page ' + i + 'footer here'
+			};
+			
+			// create page from template and add to container
+			$("#pageTemplate").tmpl(page).appendTo("#container");
+			
+
+			// add list item to access the page
+			$('#content-list').append(
+				$('#listItemTemplate').tmpl( {index: i} )
+			);
+		}
+
+		// load jqm dynamically so it renders the dynamically added DOM content / pages
+		$.getScript('http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js');
+
+		$("#container").show();		
+
+	});	
+	</script>
+	
+	<script id="listItemTemplate" type="text/x-jquery-tmpl">
+	<li>
+		<a href='#page${index}'>Page ${index}</a>
+		<span class='ui-li-count'>${index}</span>
+		<span class='ui-li-aside'>aside ${index}</span>
+		<div>subcontent ${index}</div>
+	</li>	
+	</script>
+	
+	<script id="pageTemplate" type="text/x-jquery-tmpl">
+
+		<div data-role="page" id="${id}"> 
+			<div data-role="header">
+				<h1>${title}</h1>
+			</div> 
+		
+			<div data-role="content">
+				<p>${content}</p>
+			</div> 
+		
+			<div data-role="footer">
+				<h4>${footer}</h4>
+			</div> 
+		</div> 
+
+
+	</script>
+	
+	
+	<style type="text/css" media="screen">
+		
+	</style>
+	
+</head>
+	<body>
+		<div id='container' style="display: none;">
+		
+			<div data-role="page" id="main"> 
+				<div data-role="header">
+					<h1>Page Title</h1>
+				</div> 
+				
+				<div data-role="content">
+					<ul data-role="listview" id="content-list">
+					</ul>
+				</div> 
+				
+				<div data-role="footer">
+					<h4>Page Footer</h4>
+				</div> 
+			</div> 
+			
+		</div>
+	</body>
+</html>
